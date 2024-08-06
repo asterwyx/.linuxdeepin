@@ -27,6 +27,8 @@ teams:
       - ssk-wh
       - yixinshark
       - mhduiy
+      - fly602
+      - swq11
     repositories_permissions:
       triage:
         - developer-center
@@ -826,6 +828,7 @@ teams:
     repositories_permissions:
       triage:
         - treeland
+        - developer-center
   - name: deepin-osconfig
     parent_team: Projects
     members:
@@ -851,7 +854,6 @@ teams:
       - huangbibo
       - matrix-wsk
       - opsiff
-      - realwujing
       - xzl01
       - zccrs
       - Zeno-sole
