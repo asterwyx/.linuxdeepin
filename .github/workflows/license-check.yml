@@ -43,6 +43,7 @@ jobs:
           if [ "$HAS_ISSUES" = "true" ]; then
             echo "❌ REUSE lint failed with actual compliance issues"
             echo "lint_passed=false" >> $GITHUB_OUTPUT
+            pipx run reuse==6.2.0 lint > reuse_lint_report.md 2>&1
           else
             echo "⚠️ REUSE lint failed but non_compliant fields are all empty (likely SPDX header parsing issues in reuse 6.x), treating as passed"
             echo "lint_passed=true" >> $GITHUB_OUTPUT
@@ -84,13 +85,14 @@ jobs:
           printf "## License & Copyright Check Report\n\n" >> $GITHUB_STEP_SUMMARY
           
           # 1. 处理 REUSE lint 错误
-          if [ "${{ steps.lcheck.outcome }}" != "success" ]; then
+          if [ -f reuse_lint_report.md ]; then
             echo "### ❌ REUSE Compliance Check Failed" >> $GITHUB_STEP_SUMMARY
             echo "<details><summary>Click to view lint details</summary>" >> $GITHUB_STEP_SUMMARY
             echo -e "\n\`\`\`" >> $GITHUB_STEP_SUMMARY
-            pipx run reuse==6.2.0 lint >> $GITHUB_STEP_SUMMARY || true
+            cat reuse_lint_report.md >> $GITHUB_STEP_SUMMARY
             echo -e "\`\`\`\n" >> $GITHUB_STEP_SUMMARY
             echo "</details>" >> $GITHUB_STEP_SUMMARY
+            cat reuse_lint_report.md
           fi
           
           # 2. 处理年份检查错误
